@@ -17,7 +17,10 @@ function dalMongoDB() {
 async function insertUsers(params){
       try {
             let result = await connection.collection(process.env.DB_COLLECTION).findOne({email: params.email})
-            if(result.length == 0){
+            if(result == null){
+                let resultObj = [...result, {data_criacao: Date, data_atualizacao: Date, ultimo_login: Date }]
+                console.log(resultObj)
+
                 let result = await connection.collection(process.env.DB_COLLECTION).insertOne(params)
                 return result
 
