@@ -3,9 +3,9 @@ const generationHash = require('../use-case/generationHash')
 const token = require('../use-case/token')
 
 const processingUsers = async (req, res) => {
-    const bodyHash = await generationHash.createHashPassword(req.body)    
+    const bodyHash = await generationHash.createHashPassword(req.body)
     let result = await idalSky.resultInsertUsers(bodyHash)
-    
+
     if (result._id != undefined) {
         res.send(await token.generationToken(result))
     } else {
