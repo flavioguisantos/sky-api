@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator')
 const validateRouteUsers = () => {
     return [
         //validação dos dados
+    
         body('nome')
             .notEmpty()
             .withMessage('O campo nome é obrigatório'),

@@ -1,28 +1,43 @@
-
+const uuid = require('uuid')
 const mongoClient = require('mongodb').MongoClient
 require('dotenv').config()
 
-mongoClient.connect("mongodb://" + process.env.DB_HOST + ":" + process.env.DB_PORT , {useUnifiedTopology: true})
+//const uri = "mongodb+srv://sky-api:sky-api@cluster0.ltskl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+mongoClient.connect(process.env.DB_HOST + process.env.DB_USER + ":" + process.env.DB_PASS + process.env.DB_CLUSTER, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(conn => connection = conn.db(process.env.DB_DATA))
     .catch(err => console.log(err))
     
-function dalMongoDB() {
+const dalMongoDB = () => {
      try {
         return connection.collection(process.env.DB_COLLECTION).find().toArray() 
      } catch (error) {
          return "Erro na conexão!"
      }
 }
- 
-async function insertUsers(params){
+
+ const insertUsers = async (params) =>{
       try {
             let result = await connection.collection(process.env.DB_COLLECTION).findOne({email: params.email})
             if(result == null){
-                let resultObj = [...result, {data_criacao: Date, data_atualizacao: Date, ultimo_login: Date }]
-                console.log(resultObj)
 
+                let data = new Date();
+                let myuuid =  uuid.v4()
+                params._id =  myuuid
+                let retorno = {}
                 let result = await connection.collection(process.env.DB_COLLECTION).insertOne(params)
-                return result
+
+                let logs = {_id: myuuid, data_criacao: data, data_atualizacao: data, ultimo_login: data}
+                let log = await connection.collection(process.env.DB_COLLECTION_LOG).insertOne(logs)
+                //params.insertedCount = result.insertedCount
+                retorno._id = params._id
+                retorno.nome = params.nome
+                retorno.email = params.email
+                retorno.data_criacao = data
+                retorno.data_atualizacao = data
+                retorno.ultimo_login = data
+
+                return retorno
 
             }else{
                 return {erro: "E-mail já existente"}
