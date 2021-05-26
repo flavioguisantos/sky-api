@@ -2,8 +2,6 @@ const uuid = require('uuid')
 const mongoClient = require('mongodb').MongoClient
 require('dotenv').config()
 
-//const uri = "mongodb+srv://sky-api:sky-api@cluster0.ltskl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
 mongoClient.connect(process.env.DB_HOST + process.env.DB_USER + ":" + process.env.DB_PASS + process.env.DB_CLUSTER, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(conn => connection = conn.db(process.env.DB_DATA))
     .catch(err => console.log(err))
@@ -29,7 +27,6 @@ const dalMongoDB = () => {
 
                 let logs = {_id: myuuid, data_criacao: data, data_atualizacao: data, ultimo_login: data}
                 let log = await connection.collection(process.env.DB_COLLECTION_LOG).insertOne(logs)
-                //params.insertedCount = result.insertedCount
                 retorno._id = params._id
                 retorno.nome = params.nome
                 retorno.email = params.email
