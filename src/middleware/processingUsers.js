@@ -8,9 +8,11 @@ const processingUsers = async (req, res) => {
 
     if (result._id != undefined) {
         const tokenGeneration = await token.generationToken(result)
-        res.send(tokenGeneration)
+        res.status(201).json(tokenGeneration)
     } else {
-        res.send({ erro: 'Já existe usuário cadastrado com esse email!' })
+        res.status(403).json({
+            erro: 'E-mail já existente'
+        })
     }
 }
 
@@ -23,11 +25,11 @@ const processingLogin = async (req, res) => {
         res.send(tokenGenerationLogin)
     } else {
         if (result.status != 500) {
-            res.status(result.status).send({
+            res.status(result.status).json({
                 erro: 'Usuário e/ou senha inválidos'
             })
         } else {
-            res.status(result.status).send({ erro: 'Erro interno' })
+            res.status(result.status).json({ erro: 'Erro interno' })
         }
     }
 }
@@ -35,9 +37,9 @@ const processingLogin = async (req, res) => {
 const processingSearchUser = async (req, res) => {
     let result = await idalSky.resultSearchUser(req.body)
     if (result._id != undefined) {
-        res.send(result)
+        res.status(202).json(result)
     } else {
-        res.send({ erro: 'Não autorizado' })
+        res.status(401).json({ erro: 'Não autorizado' })
     }
 }
 

@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const { body, validationResult } = require('express-validator')
 const JWTsecret = 'skyFlavioGuilherme'
 
 // recebe o token das rotas /sky para validação
@@ -11,7 +10,7 @@ const auth = async (req, res, next) => {
         req.body.email = result.email
         next()
     } else {
-        res.status(401).json({ err: 'Não autorizado' })
+        res.status(result.code).json({ err: 'Não autorizado' })
     }
 }
 
@@ -24,7 +23,12 @@ const validateToken = async (params) => {
 
         jwt.verify(token, JWTsecret, (err, data) => {
             if (err) {
-                resultValidate = { status: 'Não autorizado' }
+                if (err.message == 'jwt expired') {
+                    resultValidate = { status: 'Sessão inválida', code: 408 }
+                }
+                if (err.message == 'invalid token') {
+                    resultValidate = { status: 'Não autorizado', code: 401 }
+                }
             } else {
                 resultValidate = {
                     status: 'authenticate',
@@ -34,7 +38,7 @@ const validateToken = async (params) => {
             }
         })
     } else {
-        resultValidate = { status: 'Não autorizado' }
+        resultValidate = { status: 'Não autorizado', code: 411 }
     }
     return resultValidate
 }
