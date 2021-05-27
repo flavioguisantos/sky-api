@@ -20,12 +20,7 @@ router.post(
     processUsers.processingLogin
 )
 
-router.get(
-    '/sky/search-user',
-    //validateRoutes.validateSearchUser(),
-    //validateRoutes.validateResultSearchUser,
-    processUsers.processingSearchUser
-)
+router.get('/sky/search-user', processUsers.processingSearchUser)
 
 router.use(function (req, res, next) {
     if (!req.route) {

@@ -136,8 +136,6 @@ const SearchUser = async (params) => {
         } else {
             return { status: 'Email não localizado' }
         }
-
-        //return retorno
     } catch (error) {
         return error
     }
