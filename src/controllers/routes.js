@@ -27,4 +27,11 @@ router.get(
     processUsers.processingSearchUser
 )
 
+router.use(function (req, res, next) {
+    if (!req.route) {
+        res.status(404).json({ erro: 'rota inexistente' })
+    }
+    next()
+})
+
 module.exports = router
