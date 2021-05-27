@@ -8,8 +8,9 @@ const createHashPassword = (params) => {
 }
 
 const createHashToken = (params) => {
-    const hashToken = bcryptjs.hashSync(params, salt)
-    return hashToken
+    const hashToken = bcryptjs.hashSync(params.token, salt)
+    params.token = hashToken
+    return params
 }
 
 module.exports = { createHashPassword, createHashToken }

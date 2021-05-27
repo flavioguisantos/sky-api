@@ -13,8 +13,17 @@ router.post(
     processUsers.processingUsers
 )
 
-//router.post('/api/listResult', validate.listResultValidate)
+router.post(
+    '/api/sign-in',
+    validateRoutes.validateRouteLogin(),
+    validateRoutes.validateResultLogin,
+    processUsers.processingLogin
+)
 
-//router.post('/oapi/authenticate', validate.authenticate)
+router.post(
+    '/sky/search-user',
+    validateRoutes.validateSearchUser(),
+    validateRoutes.validateResultSearchUser
+)
 
 module.exports = router

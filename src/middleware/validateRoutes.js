@@ -1,11 +1,51 @@
 const { body, validationResult } = require('express-validator')
 
+const validateRouteLogin = () => {
+    return [
+        body('email').notEmpty().withMessage('O campo email é obrigatório'),
+        body('email')
+            .isEmail()
+            .normalizeEmail()
+            .withMessage('O campo email não contém um email válido'),
+        body('senha').notEmpty().withMessage('O campo senha é obrigatório')
+    ]
+}
+
+const validateResultLogin = (req, res, next) => {
+    const errors = validationResult(req)
+    if (errors.isEmpty()) {
+        return next()
+    }
+    const extractedErrors = []
+    errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }))
+
+    return res.status(422).json({
+        errors: extractedErrors
+    })
+}
+
+const validateSearchUser = () => {
+    return [body('Bearer').notEmpty().withMessage('Não autorizado.')]
+}
+
+const validateResultSearchUser = (req, res, next) => {
+    const errors = validationResult(req)
+    if (errors.isEmpty()) {
+        return next()
+    }
+    const extractedErrors = []
+    errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }))
+
+    return res.status(422).json({
+        errors: extractedErrors
+    })
+}
+
 const validateRouteUsers = () => {
     return [
         //validação dos dados
 
         body('nome').notEmpty().withMessage('O campo nome é obrigatório'),
-        //body('codigo_amostra').isLength({ max: 8 }).withMessage('O codigo_amostra aceita no máximo 8 caracteres'),
         body('email').notEmpty().withMessage('O campo email é obrigatório'),
         body('email')
             .isEmail()
@@ -46,4 +86,11 @@ const validateResultUsers = (req, res, next) => {
     })
 }
 
-module.exports = { validateRouteUsers, validateResultUsers }
+module.exports = {
+    validateRouteUsers,
+    validateResultUsers,
+    validateRouteLogin,
+    validateResultLogin,
+    validateSearchUser,
+    validateResultSearchUser
+}

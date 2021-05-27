@@ -12,8 +12,8 @@ const generationToken = async (params) => {
         JWTsecret,
         { expiresIn: process.env.expiresIn }
     )
-    const result = generationHash.createHashToken(token)
-    params.token = result
+
+    params.token = token
     return params
 }
 

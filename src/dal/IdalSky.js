@@ -10,4 +10,14 @@ const resultInsertUsers = async (params) => {
     }
 }
 
-module.exports = { resultInsertUsers }
+const resultLoginUser = async (params) => {
+    const result = await dalMongo.loginUser(params)
+
+    if (result._id != undefined) {
+        return result
+    } else {
+        return { status: 500 }
+    }
+}
+
+module.exports = { resultInsertUsers, resultLoginUser }
