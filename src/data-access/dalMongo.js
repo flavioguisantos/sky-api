@@ -53,17 +53,15 @@ const loginUser = async (params) => {
     }
 }
 
-const searchLogin = async (params) => {
+const searchLogin = async (id) => {
     try {
-        const result = await connection
+        const retorno = await connection
             .collection(process.env.DB_COLLECTION_LOG)
-            .find({ id_user: params })
-            .limit(1)
-            .sort({ $natural: -1 })
-        if (result != null) {
-            return result.ultimo_login
+            .findOne({ id_user: id })
+        if (retorno != null) {
+            return retorno.ultimo_login
         }
-        return result
+        return retorno
     } catch (error) {
         return { erro: 'erro ao consultar log de usúario' }
     }
