@@ -4,12 +4,11 @@ const token = require('../use-case/token')
 
 const processingUsers = async (req, res) => {
     let bodyHash = await generationHash.createHashPassword(req.body)
-    const tokenGeneration = await token.generationToken(bodyHash)
-    let result = await idalSky.resultInsertUsers(tokenGeneration)
+    let result = await idalSky.resultInsertUsers(bodyHash)
 
     if (result._id != undefined) {
-        const hashToken = generationHash.createHashToken(result)
-        res.send(hashToken)
+        const tokenGeneration = await token.generationToken(result)
+        res.send(tokenGeneration)
     } else {
         res.send({ erro: 'Já existe usuário cadastrado com esse email!' })
     }
@@ -20,8 +19,8 @@ const processingLogin = async (req, res) => {
     let result = await idalSky.resultLoginUser(tokenGenerationLogin)
 
     if (result._id != undefined) {
-        const hashToken = generationHash.createHashToken(result)
-        res.send(hashToken)
+        const tokenGenerationLogin = await token.generationToken(result)
+        res.send(tokenGenerationLogin)
     } else {
         if (result.status != 500) {
             res.status(result.status).send({
@@ -33,4 +32,13 @@ const processingLogin = async (req, res) => {
     }
 }
 
-module.exports = { processingUsers, processingLogin }
+const processingSearchUser = async (req, res) => {
+    let result = await idalSky.resultSearchUser(req.body)
+    if (result._id != undefined) {
+        res.send(result)
+    } else {
+        res.send({ erro: 'Não autorizado' })
+    }
+}
+
+module.exports = { processingUsers, processingLogin, processingSearchUser }

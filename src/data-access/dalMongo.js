@@ -27,13 +27,6 @@ const loginUser = async (params) => {
             const correct = bcrypt.compareSync(params.senha, result.senha)
             if (correct) {
                 const resultUpdate = await connection
-                    .collection(process.env.DB_COLLECTION)
-                    .updateOne(
-                        { _id: result._id },
-                        { $set: { token: params.token } },
-                        { new: true, upsert: false, returnOriginal: false }
-                    )
-
                 let retorno = {}
                 retorno._id = result._id
                 retorno.nome = result.nome
@@ -41,7 +34,6 @@ const loginUser = async (params) => {
                 retorno.data_criacao = result.data_criacao
                 retorno.data_atualizacao = result.data_atualizacao
                 retorno.ultimo_login = await searchLogin(result._id)
-                retorno.token = params.token
 
                 let logs = {
                     id_user: result._id,
@@ -106,7 +98,6 @@ const insertUsers = async (params) => {
             retorno.data_criacao = params.data_criacao
             retorno.data_atualizacao = data
             retorno.ultimo_login = data
-            retorno.token = params.token
 
             return retorno
         } else {
@@ -117,4 +108,39 @@ const insertUsers = async (params) => {
     }
 }
 
-module.exports = { insertUsers, loginUser }
+const SearchUser = async (params) => {
+    try {
+        let data = new Date()
+        const result = await connection
+            .collection(process.env.DB_COLLECTION)
+            .findOne({ email: params.email })
+
+        if (result != null) {
+            let logs = {
+                id_user: result._id,
+                ultimo_login: data
+            }
+            const log = await connection
+                .collection(process.env.DB_COLLECTION_LOG)
+                .insertOne(logs)
+
+            let retorno = {}
+            retorno._id = result._id
+            retorno.nome = result.nome
+            retorno.email = result.email
+            retorno.data_criacao = result.data_criacao
+            retorno.data_atualizacao = result.data_atualizacao
+            retorno.ultimo_login = result.ultimo_login
+
+            return retorno
+        } else {
+            return { status: 'Email não localizado' }
+        }
+
+        //return retorno
+    } catch (error) {
+        return error
+    }
+}
+
+module.exports = { insertUsers, loginUser, SearchUser }

@@ -20,10 +20,11 @@ router.post(
     processUsers.processingLogin
 )
 
-router.post(
+router.get(
     '/sky/search-user',
-    validateRoutes.validateSearchUser(),
-    validateRoutes.validateResultSearchUser
+    //validateRoutes.validateSearchUser(),
+    //validateRoutes.validateResultSearchUser,
+    processUsers.processingSearchUser
 )
 
 module.exports = router
