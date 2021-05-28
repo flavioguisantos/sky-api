@@ -73,7 +73,5 @@ module.exports = {
     validateRouteUsers,
     validateResultUsers,
     validateRouteLogin,
-    validateResultLogin,
-    validateSearchUser,
-    validateResultSearchUser
+    validateResultLogin
 }
