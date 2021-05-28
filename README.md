@@ -72,6 +72,7 @@ Atráves da rota `POST` `https://teste-app-sky.herokuapp.com/api/sign-in`, passa
     "email": "flavio.guilherme@outlook.com.br",
     "data_criacao": "2021-05-27T00:40:06.889Z",
     "data_atualizacao": "2021-05-27T00:40:06.889Z",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoiRmxhdmlvIiwiZW1haWwiOiJmbGF2aW8uZ3VpbGhlcm1lQG91dGxvb2suY29tLmJyIiwiaWF0IjoxNjIyMTIzNjU4LCJleHAiOjE2MjIxMjU0NTh9.jz8N_5MAwWRZUiYW2RJXFPNcUtJC1hvgA9TPZvmE5C1"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoiRmxhdmlvIiwiZW1haWwiOiJmbGF2aW8uZ3VpbGhlcm1lQG91dGxvb2suY29tLmJyIiwiaWF0IjoxN
+    jIyMTIzNjU4LCJleHAiOjE2MjIxMjU0NTh9.jz8N_5MAwWRZUiYW2RJXFPNcUtJC1hvgA9TPZvmE5C1"
 }
 ```
