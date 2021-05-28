@@ -7,7 +7,7 @@ const validateRouteLogin = () => {
             .isEmail()
             .normalizeEmail()
             .withMessage('O campo email não contém um email válido'),
-        body('senha').notEmpty().withMessage('O campo senha é obrigatório')
+        body('senha').notEmpty().withMessage('O campo senha é obrigatório.')
     ]
 }
 

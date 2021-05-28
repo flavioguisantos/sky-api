@@ -24,7 +24,7 @@ router.get('/sky/search-user', processUsers.processingSearchUser)
 
 router.use(function (req, res, next) {
     if (!req.route) {
-        res.status(404).json({ erro: 'rota inexistente' })
+        res.status(404).json({ erro: 'rota inexistente!!!' })
     }
     next()
 })
